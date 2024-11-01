@@ -27,6 +27,7 @@ class YouTube:
     def __init__(
         self,
         url: str,
+        client: str = None,
         on_progress_callback: Optional[Callable[[Any, bytes, int], None]] = None,
         on_complete_callback: Optional[Callable[[Any, Optional[str]], None]] = None,
         proxies: Dict[str, str] = None,
@@ -85,6 +86,7 @@ class YouTube:
         self._title = None
         self._publish_date = None
 
+        self.innertube_client = client
         self.use_oauth = use_oauth
         self.allow_oauth_cache = allow_oauth_cache
 
@@ -241,7 +243,11 @@ class YouTube:
         if self._vid_info:
             return self._vid_info
 
-        innertube = InnerTube(use_oauth=self.use_oauth, allow_cache=self.allow_oauth_cache)
+        innertube = InnerTube(
+            client=self.innertube_client, 
+            use_oauth=self.use_oauth, 
+            allow_cache=self.allow_oauth_cache
+        )
 
         innertube_response = innertube.player(self.video_id)
         self._vid_info = innertube_response

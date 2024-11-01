@@ -234,7 +234,7 @@ class InnerTube:
     """Object for interacting with the innertube API."""
     # def __init__(self, client='ANDROID_MUSIC', use_oauth=False, allow_cache=True):
     # def __init__(self, client='ANDROID_CREATOR', use_oauth=False, allow_cache=True):
-    def __init__(self, client='ANDROID', use_oauth=False, allow_cache=True):
+    def __init__(self, client, use_oauth=False, allow_cache=True):
         """Initialize an InnerTube object.
 
         :param str client:
@@ -245,6 +245,9 @@ class InnerTube:
         :param bool allow_cache:
             Allows caching of oauth tokens on the machine.
         """
+        if client not in _default_clients:
+            client = 'ANDROID'
+
         self.context = _default_clients[client]['context']
         self.header = _default_clients[client]['header']
         self.api_key = _default_clients[client]['api_key']
